@@ -139,12 +139,23 @@ class NimAI():
         Q-value in `self.q`. If there are no available actions in
         `state`, return 0.
         """
+        
+        actions = Nim.available_actions(state)
+
+        if not actions:
+            return 0
+
+        best_reward = -math.inf
+        
         # For all possible (state, action) pairs.
+        for action in actions:
             # Calculate Q-Values for all
+            q_value = self.get_q_value(state, action)
             # Return highest Q-Values.
-        
-        # Loop through all possible future states.
-        
+            best_reward = max(best_reward, q_value) 
+        return best_reward
+
+
 
     def choose_action(self, state, epsilon=True):
         """
@@ -221,7 +232,6 @@ def train(n):
 
     # Return the trained AI
     return player
-
 
 def play(ai, human_player=None):
     """
